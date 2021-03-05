@@ -1,0 +1,38 @@
+const validate = (values) => {
+  const errors = {};
+  if (!values.email) {
+    errors.email = "Requerido";
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = "Correo invalido";
+  }
+  return errors;
+};
+
+
+con yup -
+
+ const formik = useFormik({
+    initialValues: {
+      email: "",
+    },
+    validationSchema: Yup.object({
+      email: Yup.string().email("Correo invalido").required("Requerido"),
+    }),
+    onSubmit: (x) => console.warn(x),
+  });
+  return (
+    <View style={styles.container}>
+      <Text>Correo electronico</Text>
+      <TextInput
+        onBlur={formik.handleBlur("email")}
+        style={styles.input}
+        onChangeText={formik.handleChange("email")}
+        value={formik.values.email}
+      />
+      {formik.errors.email && formik.touched.email ? (
+        <Text>{formik.errors.email}</Text>
+      ) : null}
+      <Button title="Enviar" onPress={formik.handleSubmit} />
+    </View>
+  );
+}
